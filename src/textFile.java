@@ -31,9 +31,9 @@ public class textFile {
     public void printMarkdown(){
         String[] options = {"**", " ***", "~~", "__", "<sub>"};
         Random rng = new Random();
-        int number = rng.nextInt(options.length);
         System.out.println("#" + fileContent.get(0));
         for(int i = 1; i < fileContent.size(); i++){
+            int number = rng.nextInt(options.length);
             String option = options[number];
             System.out.println(option + fileContent.get(i) + option);
         }
