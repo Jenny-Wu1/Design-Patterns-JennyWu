@@ -1,5 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class textFile {
     private ArrayList<String> fileContent;
@@ -18,6 +20,30 @@ public class textFile {
     }
 
     public void printFormatted(){
-        format.format(fileContent);
+        if (format != null) {
+            ArrayList<String> formattedContent = format.format(fileContent);
+            for (String line : formattedContent) {
+                System.out.println(line);
+            }
+        } else {
+            System.out.println("No format selected");
+        }
+    }
+
+    public void saveFormatted(String filename) {
+        if (format == null) {
+            System.out.println("No format selected, saving as plain text");
+        }
+        ArrayList<String> formattedContent = (format != null) ? format.format(fileContent) : fileContent;
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            for (String line : formattedContent) {
+                writer.write(line);
+                writer.newLine();
+            }
+            System.out.println("File saved! :)");
+        } catch (IOException e) {
+            System.out.println("There was an error saving the file :( - " + e.getMessage());
+        }
+
     }
 }

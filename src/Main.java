@@ -14,13 +14,15 @@ public class Main {
         boolean exit = false;
 
         while(!exit) {
-            System.out.println("Select a formatting option:");
+            System.out.println("Select a formatting option or save the document in selected format:");
             System.out.println("1: Plain Text");
             System.out.println("2: HTML");
             System.out.println("3: Markdown");
-            System.out.println("4: Exit");
+            System.out.println("4: Save document");
+            System.out.println("5: Exit");
 
             int option = scanner.nextInt();
+            scanner.nextLine();
             switch (option) {
                 case 1:
                     file.setFormat(new plainTextFormat());
@@ -35,11 +37,16 @@ public class Main {
                     file.printFormatted();
                     break;
                 case 4:
+                    System.out.println("Enter the filename to save: ");
+                    String filename = scanner.nextLine();
+                    file.saveFormatted(filename);
+                case 5:
                     exit = true;
                     break;
                 default:
                     System.out.println("Invalid option, please try again");
             }
         }
+        scanner.close();
     }
 }

@@ -2,13 +2,15 @@ import java.util.ArrayList;
 
 public class HTMLFormat implements IFormat {
 
-    public void format(ArrayList<String> fileContent) {
-        System.out.println("<html dir=\"ltr\" lang=\"en\">");
-        System.out.println("<head>");
-        for(int i = 0; i < fileContent.size(); i++){
-            System.out.println("<text=" + fileContent.get(i) + ">");
+    public ArrayList<String> format(ArrayList<String> fileContent) {
+        ArrayList<String> formattedContent = new ArrayList<>();
+        formattedContent.add("<html dir=\"ltr\" lang=\"en\">");
+        formattedContent.add("<head>");
+        for (String line : fileContent) {
+            formattedContent.add("<text=" + line + ">");
         }
-        System.out.println("</head>");
-        System.out.println("</html>");
+        formattedContent.add("</head>");
+        formattedContent.add("</html>");
+        return formattedContent;
     }
 }
