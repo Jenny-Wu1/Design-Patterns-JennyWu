@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class textFile {
-    private ArrayList<String> fileContent;
-    private IFormat format;
+    ArrayList<String> fileContent;
+    IFormat format;
 
     public textFile(){
         fileContent = new ArrayList<>();
