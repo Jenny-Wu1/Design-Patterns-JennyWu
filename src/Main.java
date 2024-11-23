@@ -18,8 +18,9 @@ public class Main {
             System.out.println("1: Plain Text");
             System.out.println("2: HTML");
             System.out.println("3: Markdown");
-            System.out.println("4: Save document");
-            System.out.println("5: Exit");
+            System.out.println("4: JSON");
+            System.out.println("5: Save document");
+            System.out.println("6: Exit");
 
             int option = scanner.nextInt();
             scanner.nextLine();
@@ -37,10 +38,14 @@ public class Main {
                     file.printFormatted();
                     break;
                 case 4:
+                    file.setFormat(new JSONFormat());
+                    file.printFormatted();
+                    break;
+                case 5:
                     System.out.println("Enter the filename to save: ");
                     String filename = scanner.nextLine();
                     file.saveFormatted(filename);
-                case 5:
+                case 6:
                     exit = true;
                     break;
                 default:
