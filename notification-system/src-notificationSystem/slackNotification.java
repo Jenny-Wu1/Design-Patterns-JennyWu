@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class slackNotification extends notificationDecorator {
     private Notification toBeDecorated;
     public slackNotification(Notification notification) {
@@ -10,6 +12,16 @@ public class slackNotification extends notificationDecorator {
 
     public void send(String message) {
         toBeDecorated.send(message);
-        System.out.println("Slack notification(s): " + message);
+        String log = "Slack notification(s): " + message;
+        System.out.println(log);
+        toBeDecorated.addToHistory(log);
+    }
+
+    public void addToHistory(String log) {
+        toBeDecorated.addToHistory(log);
+    }
+
+    public List<String> getHistory() {
+        return toBeDecorated.getHistory();
     }
 }
