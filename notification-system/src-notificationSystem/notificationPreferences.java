@@ -3,10 +3,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class notificationPreferences {
-    public static Notification configure(Notification baseNotif, List<String> preferences) {
+    public static Notification configure(Notification baseNotif, List<String> preferences, List<String> disabledChannels) {
         Notification notification = baseNotif;
 
         for (String preference : preferences) {
+            if (disabledChannels.contains(preference.toLowerCase())) {
+                continue;
+            }
             switch (preference.toLowerCase()) {
                 case "email":
                     notification = new emailNotification(notification);
