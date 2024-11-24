@@ -2,7 +2,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.FileWriter;
-
+import java.util.Date;
+import java.text.SimpleDateFormat;
 public class logger {
     private static logger uniqueInstance;
     private List<String> logHistory;
@@ -61,6 +62,20 @@ public class logger {
 
     public List<String> getLogHistory() {
         return new ArrayList<>(logHistory);
+    }
+
+    public void archiveLogs() {
+        String timestamp = new SimpleDateFormat("ddMMyyyy").format(new Date());
+        String archiveFileName = "logs_archive_" + timestamp;
+
+        try (FileWriter archiveWriter = new FileWriter(archiveFileName)) {
+            for (String log : logHistory) {
+                archiveWriter.write(log + "\n");
+            }
+            System.out.println("Logs archived to: " + archiveFileName);
+        } catch (IOException e) {
+            System.out.println("Error archiving logs: " + e.getMessage());
+        }
     }
 
 }
