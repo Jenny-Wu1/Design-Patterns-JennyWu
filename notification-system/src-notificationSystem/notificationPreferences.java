@@ -17,6 +17,12 @@ public class notificationPreferences {
                 case "slack":
                     notification = new slackNotification(notification);
                     break;
+                case "whatsapp":
+                    notification = new WhatsAppNotification(notification);
+                    break;
+                case "push":
+                    notification = new pushNotification(notification);
+                    break;
                 default:
                     throw new IllegalArgumentException("Unsupported notification channel, please try again :( - " + preference);
             }
@@ -28,14 +34,15 @@ public class notificationPreferences {
         Scanner scanner = new Scanner(System.in);
         List<String> preferences = new ArrayList<>();
 
-        System.out.println("Enter the names of the channels you'd like to receive notifications from (e.g., email, sms, slack).");
+        System.out.println("Enter the names of the channels you'd like to receive notifications from (e.g., email, sms, slack, whatsapp, push).");
         System.out.println("Please type the name and press enter after each one if you're selecting multiple, then type 'done' to finish. :)");
 
         while (true) {
             String input = scanner.nextLine().trim().toLowerCase();
             if (input.equals("done")) {
                 break;
-            } else if (input.equals("email") || input.equals("sms") || input.equals("slack")) {
+            } else if (input.equals("email") || input.equals("sms") || input.equals("slack") ||
+                        input.equals("whatsapp") || input.equals("push")) {
                 preferences.add(input);
             } else {
                 System.out.println("Invalid channel, please try again :(");
