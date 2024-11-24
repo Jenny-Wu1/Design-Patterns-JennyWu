@@ -1,7 +1,13 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class logger {
     private static logger uniqueInstance;
+    private List<String> logHistory;
 
-    private logger () {}
+    private logger () {
+        logHistory = new ArrayList<>();
+    }
 
     public static logger getInstance() {
         if (uniqueInstance == null) {
@@ -14,6 +20,7 @@ public class logger {
 
     public void log(String level, String message) {
         String logMessage = "[" + level + "] " + message;
+        logHistory.add(logMessage);
         System.out.println(logMessage);
     }
 
@@ -27,6 +34,10 @@ public class logger {
 
     public void error(String message) {
         log("ERROR", message);
+    }
+
+    public List<String> getLogHistory() {
+        return new ArrayList<>(logHistory);
     }
 
 }
