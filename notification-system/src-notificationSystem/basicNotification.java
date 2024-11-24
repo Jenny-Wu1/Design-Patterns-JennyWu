@@ -1,4 +1,4 @@
-public class basicNotification extends notification {
+public class basicNotification extends Notification {
     public basicNotification() {
         this.description = "Basic notifications";
     }

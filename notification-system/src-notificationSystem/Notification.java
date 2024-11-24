@@ -1,4 +1,4 @@
-public abstract class notification {
+public abstract class Notification {
     String description = "Basic Notification";
 
     public String getDescription() {
