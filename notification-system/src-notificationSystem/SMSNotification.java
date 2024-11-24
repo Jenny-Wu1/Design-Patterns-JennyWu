@@ -11,6 +11,6 @@ public class SMSNotification extends notificationDecorator {
 
     public void send(String message) {
         toBeDecorated.send(message);
-        System.out.println("SMS notification(s): " + message);
+        System.out.println("SMS alert(s): " + message);
     }
 }

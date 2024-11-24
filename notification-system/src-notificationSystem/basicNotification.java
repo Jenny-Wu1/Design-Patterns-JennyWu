@@ -4,6 +4,6 @@ public class basicNotification extends Notification {
     }
 
     public void send(String message) {
-        System.out.println("System updates: " + message);
+        System.out.println("System update(s): " + message);
     }
 }
