@@ -1,12 +1,20 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.FileWriter;
 
 public class logger {
     private static logger uniqueInstance;
     private List<String> logHistory;
+    private FileWriter fileWriter;
 
     private logger () {
         logHistory = new ArrayList<>();
+        try {
+            fileWriter = new FileWriter("log.history", true);
+        } catch (IOException e) {
+            throw new RuntimeException("Error initializing file writer: ", e);
+        }
     }
 
     public static logger getInstance() {
@@ -22,6 +30,21 @@ public class logger {
         String logMessage = "[" + level + "] " + message;
         logHistory.add(logMessage);
         System.out.println(logMessage);
+
+        try {
+            fileWriter.write(logMessage + "\n");
+            fileWriter.flush();
+        } catch (IOException e) {
+            System.out.println("Error writing log file: " + e.getMessage());
+        }
+    }
+
+    public void closeFileWriter() {
+        try {
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("Error closing the file writer: " + e.getMessage());
+        }
     }
 
     public void info(String message) {
