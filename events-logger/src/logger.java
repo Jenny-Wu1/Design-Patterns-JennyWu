@@ -12,4 +12,21 @@ public class logger {
         return uniqueInstance;
     }
 
+    public void log(String level, String message) {
+        String logMessage = "[" + level + "] " + message;
+        System.out.println(logMessage);
+    }
+
+    public void info(String message) {
+        log("INFO", message);
+    }
+
+    public void debug(String message) {
+        log("DEBUG", message);
+    }
+
+    public void error(String message) {
+        log("ERROR", message);
+    }
+
 }
