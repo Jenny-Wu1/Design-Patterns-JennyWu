@@ -30,7 +30,8 @@ public class logger {
     }
 
     public void log(String level, String message) {
-        String logMessage = "[" + level + "] " + message;
+        String timestamp = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
+        String logMessage = "[" + timestamp + "] [" + level + "] " + message;
         logHistory.add(logMessage);
 
         if (outputDestination.equals("console") || outputDestination.equals("all")) {
