@@ -7,17 +7,11 @@ import java.text.SimpleDateFormat;
 public class logger {
     private static logger uniqueInstance;
     private List<String> logHistory;
-    private FileWriter fileWriter;
-    private String outputDestination;
+    private List<LogOutput> outputs;
 
     private logger () {
         logHistory = new ArrayList<>();
-        outputDestination = "all";
-        try {
-            fileWriter = new FileWriter("log.history", true);
-        } catch (IOException e) {
-            throw new RuntimeException("Error initializing file writer: ", e);
-        }
+        outputs = new ArrayList<>();
     }
 
     public static logger getInstance() {
@@ -33,31 +27,14 @@ public class logger {
         String logMessage = formatLogMessage(level, message);
         logHistory.add(logMessage);
 
-        if (outputDestination.equals("console") || outputDestination.equals("all")) {
-            System.out.println(logMessage);
-        }
-
-        if (outputDestination.equals("file") || outputDestination.equals("all")) {
-            try {
-                fileWriter.write(logMessage + "\n");
-                fileWriter.flush();
-            } catch (IOException e) {
-                System.out.println("Error writing log file: " + e.getMessage());
-            }
+        for (LogOutput output : outputs) {
+            output.writeLog(logMessage);
         }
     }
 
     private String formatLogMessage(String level, String message) {
         String timestamp = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
         return "[" + timestamp + "] [" + level + "] " + message;
-    }
-
-    public void closeFileWriter() {
-        try {
-            fileWriter.close();
-        } catch (IOException e) {
-            System.out.println("Error closing the file writer: " + e.getMessage());
-        }
     }
 
     public void info(String message) {
@@ -85,17 +62,27 @@ public class logger {
                 archiveWriter.write(log + "\n");
             }
             System.out.println("Logs archived to: " + archiveFileName);
+            logHistory.clear();
         } catch (IOException e) {
             System.out.println("Error archiving logs: " + e.getMessage());
         }
     }
 
-    public void setOutputDestination(String destination) {
-        if (!destination.equals("console") && !destination.equals("file") && !destination.equals("all")) {
-            System.out.println("Invalid output destination, defaulting to 'all'...");
-            this.outputDestination = "all";
-        } else {
-            this.outputDestination = destination;
+    public void addOutput (LogOutput output) {
+        outputs.add(output);
+    }
+
+    public void removeOutput(LogOutput output) {
+        outputs.remove(output);
+    }
+
+    public void closeAllOutputs() {
+        for (LogOutput output : outputs) {
+            try {
+                output.close();
+            } catch (IOException e) {
+                System.out.println("Error closing log output: " + e.getMessage());
+            }
         }
     }
 
