@@ -8,9 +8,11 @@ public class logger {
     private static logger uniqueInstance;
     private List<String> logHistory;
     private FileWriter fileWriter;
+    private String outputDestination;
 
     private logger () {
         logHistory = new ArrayList<>();
+        outputDestination = "all";
         try {
             fileWriter = new FileWriter("log.history", true);
         } catch (IOException e) {
@@ -30,13 +32,18 @@ public class logger {
     public void log(String level, String message) {
         String logMessage = "[" + level + "] " + message;
         logHistory.add(logMessage);
-        System.out.println(logMessage);
 
-        try {
-            fileWriter.write(logMessage + "\n");
-            fileWriter.flush();
-        } catch (IOException e) {
-            System.out.println("Error writing log file: " + e.getMessage());
+        if (outputDestination.equals("console") || outputDestination.equals("all")) {
+            System.out.println(logMessage);
+        }
+
+        if (outputDestination.equals("file") || outputDestination.equals("all")) {
+            try {
+                fileWriter.write(logMessage + "\n");
+                fileWriter.flush();
+            } catch (IOException e) {
+                System.out.println("Error writing log file: " + e.getMessage());
+            }
         }
     }
 
@@ -75,6 +82,15 @@ public class logger {
             System.out.println("Logs archived to: " + archiveFileName);
         } catch (IOException e) {
             System.out.println("Error archiving logs: " + e.getMessage());
+        }
+    }
+
+    public void setOutputDestination(String destination) {
+        if (!destination.equals("console") && !destination.equals("file") && !destination.equals("all")) {
+            System.out.println("Invalid output destination, defaulting to 'all'...");
+            this.outputDestination = "all";
+        } else {
+            this.outputDestination = destination;
         }
     }
 
