@@ -30,8 +30,7 @@ public class logger {
     }
 
     public void log(String level, String message) {
-        String timestamp = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
-        String logMessage = "[" + timestamp + "] [" + level + "] " + message;
+        String logMessage = formatLogMessage(level, message);
         logHistory.add(logMessage);
 
         if (outputDestination.equals("console") || outputDestination.equals("all")) {
@@ -46,6 +45,11 @@ public class logger {
                 System.out.println("Error writing log file: " + e.getMessage());
             }
         }
+    }
+
+    private String formatLogMessage(String level, String message) {
+        String timestamp = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
+        return "[" + timestamp + "] [" + level + "] " + message;
     }
 
     public void closeFileWriter() {
